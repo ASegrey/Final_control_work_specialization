@@ -82,5 +82,4 @@ cat "Домашние животные" "Вьючные животные" > Anim
 cat Animals
 mv "Animals" "Друзья человека"
 ```
-
-![Решение задания 1](https://github.com/ASegrey/Final_control_work_specialization/edit/main/img/task_01.PNG)
+<img src="img/task_01.PNG"/>
