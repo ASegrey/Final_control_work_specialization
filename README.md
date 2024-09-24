@@ -83,3 +83,41 @@ cat Animals
 mv "Animals" "Друзья человека"
 ```
 <img src="img/task_01.PNG"/>
+
+2. Команды Bash:
+
+```bash
+mkdir folder_attestation
+mv 'Друзья человека' folder_attestation/
+ls
+cd folder_attestation/
+ls
+```
+<img src="img/task_02.PNG"/>
+
+3. Команды Bash:
+
+```bash
+sudo apt-get update
+sudo apt update
+sudo apt install mysql-server
+sudo service mysql status
+```
+<img src="img/task_03_1_2.PNG"/>
+<img src="img/task_03_1_3.PNG"/>
+
+4. Команды Bash:
+
+```bash
+wget https://ubuntu.pkgs.org/22.04/ubuntu-universe-arm64/cowsay_3.03+dfsg2-8_all.deb
+sudo dpkg -i cowsay_3.03+dfsg2-8_all.deb
+sudo dpkg -r cowsay
+```
+<img src="img/task_04.PNG"/>
+
+5. Команды Bash:
+
+```bash
+history
+```
+<img src="img/task_05.PNG"/>
