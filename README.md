@@ -129,7 +129,7 @@ history
 7. Код sql:
 
 ```sql
-CREATE DATABASE Друзья_человека;
+CREATE DATABASE Друзья человека;
 ```
 <img src="img/task_07.PNG"/>
 
@@ -139,80 +139,123 @@ CREATE DATABASE Друзья_человека;
 
 USE Друзья_человека;
 
-CREATE TABLE Родительский_класс (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  тип VARCHAR(50)
+CREATE TABLE Commands
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name varchar(30),
+    description varchar(255)
 );
 
 
-CREATE TABLE Домашние_животные (
-  id INT PRIMARY KEY,
-  вид VARCHAR(50),
-  FOREIGN KEY (id) REFERENCES Родительский_класс(id)
+CREATE TABLE Animal_Group
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name varchar(30)
 );
 
-
-CREATE TABLE Собаки (
-  id INT PRIMARY KEY,
-  имя VARCHAR(50),
-  команда VARCHAR(50),
-  дата_рождения DATE,
-  FOREIGN KEY (id) REFERENCES Домашние_животные(id)
+CREATE TABLE Animal_Type
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name varchar(30),
+    group_id INT,
+    FOREIGN KEY (group_id) REFERENCES Animal_Group (id)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
-CREATE TABLE Кошки (
-  id INT PRIMARY KEY,
-  имя VARCHAR(50),
-  команда VARCHAR(50),
-  дата_рождения DATE,
-  FOREIGN KEY (id) REFERENCES Домашние_животные(id)
+CREATE TABLE Cart_Animal
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name varchar(30),
+    birthDay DATE,
+    genius_id INT,
+    FOREIGN KEY (genius_id) REFERENCES Animal_Type (id)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE Animal_Command
+(
+    animal_id INT NOT NULL,
+    command_id INT NOT NULL,
 
-CREATE TABLE Хомяки (
-  id INT PRIMARY KEY,
-  имя VARCHAR(50),
-  команда VARCHAR(50),
-  дата_рождения DATE,
-  FOREIGN KEY (id) REFERENCES Домашние_животные(id)
-);
-
-
-CREATE TABLE Вьючные_животные (
-  id INT PRIMARY KEY,
-  вид VARCHAR(50),
-  FOREIGN KEY (id) REFERENCES Родительский_класс(id)
-);
-
-
-CREATE TABLE Лошади (
-  id INT PRIMARY KEY,
-  имя VARCHAR(50),
-  команда VARCHAR(50),
-  дата_рождения DATE,
-  FOREIGN KEY (id) REFERENCES Вьючные_животные(id)
-);
-
-
-CREATE TABLE Верблюды (
-  id INT PRIMARY KEY,
-  имя VARCHAR(50),
-  команда VARCHAR(50),
-  дата_рождения DATE,
-  FOREIGN KEY (id) REFERENCES Вьючные_животные(id)
-);
-
-
-CREATE TABLE Ослы (
-  id INT PRIMARY KEY,
-  имя VARCHAR(50),
-  команда VARCHAR(50),
-  дата_рождения DATE,
-  FOREIGN KEY (id) REFERENCES Вьючные_животные(id)
+    PRIMARY KEY (animal_id, command_id),
+    FOREIGN KEY (animal_id) REFERENCES Cart_Animal (id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (command_id) REFERENCES Commands (id)
+    ON DELETE CASCADE  ON UPDATE CASCADE
 );
 
 show databases;
 show tables;
 ```
 <img src="img/task_08.PNG"/>
+
+9. Код sql:
+
+```sql
+
+INSERT INTO Commands(name)
+VALUES
+ ('Фас!'),
+ ('Бегать'),
+ ('Галоп!'),
+ ('Поклон!'),
+ ('Лежать!');
+
+INSERT INTO Animal_Group (name)
+VALUES
+ ('Вьючные животные'),
+ ('Домашние животные');
+
+INSERT INTO Animal_Type (name, group_id)
+VALUES
+ ('Лошадь', 1),
+ ('Верблюд', 1),
+ ('Осел', 1),
+ ('Кошка', 2),
+ ('Собака', 2),
+ ('Хомяк', 2);
+
+INSERT INTO Cart_Animal (name, birthDate, genius_id)
+VALUES
+ ('Туман', '2021-08-17', 1),
+ ('Рыжий', '2023-03-03', 1),
+ ('Сахара', '2018-07-20', 2),
+ ('Тормоз', '2019-01-01', 3),
+ ('Перс', '2016-07-07', 4),
+ ('Мухтар', '2022-09-07', 5),
+ ('Хомо', '2023-12-19', 6);
+
+
+INSERT INTO Animal_Command (animal_id, command_id)
+VALUES
+ (1, 3), (2, 4), (3, 5),
+ (4, 5), (5, 2), (6, 1),
+ (7, 2);
+```
+10. Код sql:
+```sql
+DELETE FROM Cart_Animal WHERE genius_id = 2;
+
+CREATE TABLE Horse_Donkey AS
+SELECT * from Cart_Animal WHERE genius_id = 1
+UNION
+SELECT * from Cart_Animal WHERE genius_id = 3;
+```
+
+11. Код sql:
+
+```sql
+CREATE TABLE Young_Animals AS
+SELECT id, name, birthDay, datediff(curdate(),birthDay) DIV 31 as age, genius_id 
+from Cart_Animal 
+WHERE date_add(birthDay, INTERVAL 1 YEAR) < curdate() 
+AND date_add(birthDay, INTERVAL 3 YEAR) > curdate();
+```
+
+12. Код Sql:
+
+```sql
+SELECT id, name, birthDay, genius_id FROM Horse_Donkey
+UNION
+SELECT id, name, birthDay, genius_id FROM Young_Animals;
+```
