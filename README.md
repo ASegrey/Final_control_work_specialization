@@ -124,7 +124,7 @@ history
 
 6. Диаграмма классов:
 
-<img src="img/Diagram.png"/>
+<img src="img/Diagram_1.png"/>
 
 7. Код sql:
 
@@ -187,7 +187,7 @@ CREATE TABLE Animal_Command
 show databases;
 show tables;
 ```
-<img src="img/task_08.PNG"/>
+<img src="img/task_08_1.PNG"/>
 
 9. Код sql:
 
